@@ -1,0 +1,13 @@
+.user.icon {
+    width:10%;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.chat {
+    display:flex;
+    flex-direction: row;
+    background-color: white;
+    padding:2px 0px;
+    border: 1px solid black;
+}
