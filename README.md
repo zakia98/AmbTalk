@@ -9,3 +9,11 @@ Features:
 -Talk to random people via RandoChat. 
 -Users can sign in via google authentication, or through sign up.
 -Passwords will be hashed for safety. 
+
+To-Do List:
+
+-Store user chats to database
+-Store user data
+-Google/github/ login
+-ways to identify users
+-
