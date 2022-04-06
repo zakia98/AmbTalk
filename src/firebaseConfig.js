@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { onAuthStateChanged, getAuth } from "firebase/auth";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -16,12 +16,9 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig)
 // Initialize Firebase
-function startFirebase() { 
-  const app = firebase.initializeApp(firebaseConfig);
-  
-}
 
-
+const auth = getAuth()
+let currentUser = getAuth().currentUser
 
 const uiConfig = {
     // Popup signin flow rather than redirect flow.
@@ -42,7 +39,7 @@ const uiConfig = {
   };
   
 function SignInScreen() {
-    startFirebase()
+    
     return (
       <div>
         <h1>My App</h1>
@@ -53,5 +50,7 @@ function SignInScreen() {
 }
 
 
+
+
   
-export { SignInScreen, startFirebase }
+export { SignInScreen, app, currentUser, auth }
