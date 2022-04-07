@@ -5,13 +5,18 @@ import ChatHistory from './components/ChatHistory/ChatHistory';
 import { SignInScreen, startFirebase, app, currentUser } from './firebaseConfig';
 import {getFirestore} from 'firebase/firestore'
 import App from './App';
-import { readUserDatabase, addUserDataToDatabase, grabUserMessages, pushUserMessage } from './firebasehelpers';
+import { readUserDatabase, addUserDataToDatabase, grabUserMessages, pushUserMessage, addUsersChosenUsernameToDatabase } from './firebasehelpers';
 import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import CreateUserName from './components/CreateUsername';
+
 
 function Home() {
-  const [currentUser, setCurrentUser] = useState({})
+  const [currentUser, setCurrentUser] = useState(undefined)
+  const [isFirstLogin, toggleFirst] = useState(false)
   const [userData, setUserData] = useState(undefined)
+  const [username, setUsername] = useState(undefined)
+
   useEffect(() => {
     onAuthStateChanged(getAuth(), authStateObserver)
   }, [])
@@ -19,16 +24,16 @@ function Home() {
   function authStateObserver(user) {
     if (user) {
       setCurrentUser(user)
-      let getUserData = async () => await readUserDatabase(app, user)
+      let getUserData = async () => await readUserDatabase(app, user.uid)
       getUserData()
         .then(result => {
           if (result) {
             setUserData(result)
           } else {
             addUserDataToDatabase(app, user)
+            toggleFirst(prevState => !prevState)
           }
-          grabUserMessages(app, 'mzqHwjbpTtXJOZCfHplV')
-          pushUserMessage(app, 'mzqHwjbpTtXJOZCfHplV', {time:'3pm', uid:'tsHR1lmPmUhFcQ8McgAehSzRBbs1', chatMessage:'Where the honeys at'})
+          grabUserMessages(app, user.uid)
         })
         .catch(error => console.log(error))
     } else {
@@ -36,15 +41,26 @@ function Home() {
     }
   }
 
+  const handleChange = (e) => {
+    setUsername(prevState => e.target.value)
+  }
+
+  const submitUsername = (e) => {
+    e.preventDefault();
+    
+    addUsersChosenUsernameToDatabase(app, currentUser, username)
+    toggleFirst(prevState => !prevState)
+  }
 
 
   return (
     <div className="App">
       <BrowserRouter>
         <NavBar currentUser={currentUser}></NavBar>
+        {isFirstLogin ? <CreateUserName handleChange={handleChange} submitUsername={submitUsername}/> : null}
         <Routes>
           <Route path='/' exact element={<SignInScreen />} />
-          <Route path='/chat-history' element={<ChatHistory />}></Route>
+          <Route path='/chat-history' element={<ChatHistory currentUser={currentUser}/>}></Route>
           <Route path='/app' element={<App />}></Route>
         </Routes>
       </BrowserRouter>

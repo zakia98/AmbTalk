@@ -1,0 +1,10 @@
+.newchat {
+    display:flex;
+    flex-direction: column;
+}
+
+.close {
+    align-self: flex-end;
+    margin:2px;
+    width:20%;
+}
