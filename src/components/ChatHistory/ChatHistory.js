@@ -1,26 +1,22 @@
-import { grabUserMessages, readUserDatabase } from "../../firebasehelpers";
+import { grabUserMessages, readUserDatabase, searchByUsername } from "../../firebasehelpers";
 import Chat from "./Chat";
-import { app } from "../../firebaseConfig";
+import { app, currentUser } from "../../firebaseConfig";
 import { useEffect, useState } from "react";
 import NewChatModal from "./NewChatModal";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 export default function ChatHistory(props) {
     
+
     const [recentChats, setChats] = useState([])
     const [showNewChatBox, toggleNewChat] = useState(false)
+
     useEffect(() => {
-        
         if (props.currentUser) {
-            readUserDatabase(app, props.currentUser.uid).then(result => {
-                const chats = []
-                result.chats.forEach(chatID => {
-                        grabUserMessages(app, props.currentUser.uid).then(message => {
-                        chats.push(message)
-                    })
-                })
-                setChats(chats)
-            })    
+            grabUserMessages(app, props.currentUser.uid).then(result => {
+                setChats(result)
+            })
         }
     }, [props.currentUser])
 
@@ -32,16 +28,26 @@ export default function ChatHistory(props) {
         toggleNewChat(true)
     }
 
+    const getChats = recentChats.length > 1 ? loadChats() : null
+
+    function loadChats() {
+        const chats = recentChats.map((chat, index) => {
+            const otherUserUID = chat.head.users.allusers.find(element => element != props.currentUser.uid)
+            const lastMessage = chat.messages.length > 0 ? 
+                chat.messages[chat.messages.length - 1].chatMessage : 'No messages yet'
+            const trimmedLastMessage = lastMessage.split("").slice(0,19).join("") + '...'
+            return <Chat otherUserUID={otherUserUID} lastMessage={trimmedLastMessage} chatID={chat.head.chatID} key={index}></Chat>
+        }) 
+        return chats             
+    }
+
     return(
         <div>
             <div className='startNewChat chat' onClick={startNewChat}>
                 Start a new chat...
             </div>
-            <Chat name={'Amina'} lastMessage={'miss you...'}></Chat>
-            <Chat name={'Charlotte'} lastMessage={'Yo where you at'}></Chat>
-            <Chat name={'Danica'} lastMessage={'We still on for tonight??'}></Chat>
-            <Chat name={'Emily'} lastMessage={'You have a side hoe????'}></Chat>
-            {showNewChatBox ? <NewChatModal closeModal={toggleNewChat}/> : null}
+            {getChats}
+            {showNewChatBox ? <NewChatModal closeModal={toggleNewChat} currentUser={props.currentUser}/> : null}
         </div>
     )
 }
