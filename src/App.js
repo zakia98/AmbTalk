@@ -17,7 +17,7 @@ export default function App() {
     }
 
     return(
-        <div>
+        <div className='options'>
             <Link to="/chat-history">Chats</Link>
             <Link to='/settings'>Settings</Link>
             <a onClick={logOut}>Sign Out</a>
