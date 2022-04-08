@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  height:100vh;
 }
 
 .App-logo {
@@ -35,4 +36,16 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.options {
+  display:flex;
+  flex-direction:column;
+}
+
+.button {
+  background-color: #F4BB44;
+  border: 2px solid #ac8126;
+  border-radius: 5px;
 }
