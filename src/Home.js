@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import NavBar from './components/NavBar/NavBar';
 import ChatHistory from './components/ChatHistory/ChatHistory';
 import { SignInScreen, startFirebase, app, currentUser } from './firebaseConfig';
@@ -9,6 +9,7 @@ import { readUserDatabase, addUserDataToDatabase, grabUserMessages, pushUserMess
 import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import CreateUserName from './components/CreateUsername';
+import Conversation from './components/Chat/Conversation';
 
 
 function Home() {
@@ -33,7 +34,6 @@ function Home() {
             addUserDataToDatabase(app, user)
             toggleFirst(prevState => !prevState)
           }
-          grabUserMessages(app, user.uid)
         })
         .catch(error => console.log(error))
     } else {
@@ -52,7 +52,7 @@ function Home() {
     toggleFirst(prevState => !prevState)
   }
 
-
+  
   return (
     <div className="App">
       <BrowserRouter>
@@ -62,6 +62,7 @@ function Home() {
           <Route path='/' exact element={<SignInScreen />} />
           <Route path='/chat-history' element={<ChatHistory currentUser={currentUser}/>}></Route>
           <Route path='/app' element={<App />}></Route>
+          <Route path='/chat/:convoID' element={<Conversation currentUser={currentUser}/>} ></Route>
         </Routes>
       </BrowserRouter>
     </div>
