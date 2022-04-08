@@ -1,0 +1,47 @@
+.message {
+    background-color: white;
+    width:80%;
+    margin: 5px 5px;
+    border-radius: 5px;
+    padding: 2px 2px;
+    text-align: left;
+}
+
+.message > p {
+    margin:0
+}
+
+.message-bar {
+    background-color: #F4BB44;
+    position:sticky;
+    width:100%;
+    height:5%;
+    bottom:0;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top:auto
+}
+
+.conversation {
+    min-height: 90%;
+    display:flex;
+    flex-direction: column;
+}
+
+.message-input {
+    width:80%;
+    height:70%;
+    border:none;
+    margin-left: 2px;
+    border-radius:5px 0px 0px 5px;
+    border: 2px solid #ac8126;
+    border-right: none;
+}
+
+.send {
+    background-color: #F4BB44;
+    border: 2px solid #ac8126;
+    border-left: none;
+    border-radius: 0px 5px 5px 0px;
+}
