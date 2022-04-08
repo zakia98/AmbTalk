@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './NewChatModal.css'
 import { searchByUsername } from '../../firebasehelpers'
 import UsersBox from './UsersBox'
+import { currentUser } from '../../firebaseConfig'
 
 export default function NewChatModal(props) {
 
@@ -16,9 +17,10 @@ export default function NewChatModal(props) {
         searchByUsername(input).then(result => updateSearchResults(result))
     }, [input])
     
+    
 
     const searchResults = searchResultsList ? searchResultsList.map(
-        result => <UsersBox name={result.name} />
+        result => <UsersBox name={result.name} username={result.username} key={result.username} currentUser={props.currentUser}/>
     )  : null
     
     return(
