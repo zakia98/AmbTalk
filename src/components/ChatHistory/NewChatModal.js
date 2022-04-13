@@ -10,6 +10,7 @@ export default function NewChatModal(props) {
     const [searchResultsList, updateSearchResults] = useState([])
 
     function handleChange(e) {
+        //handles user input state for searching for users.
         updateInput(prevState => e.target.value)
     }
 

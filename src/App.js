@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getAuth, signOut } from 'firebase/auth'
-import { uid } from './firebaseConfig'
+
 export default function App() {
 
     const navigate = useNavigate()
@@ -10,7 +10,6 @@ export default function App() {
         const auth = getAuth()
         signOut(auth).then(() => {
             navigate('/')
-
         }).catch((error) => {
             console.log(error)
         })
