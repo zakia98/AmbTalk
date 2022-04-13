@@ -1,11 +1,9 @@
-import { getQueriesForElement } from '@testing-library/react'
 import 'firebase/app'
-import { initializeApp } from 'firebase/app'
-import { confirmPasswordReset } from 'firebase/auth'
 import 'firebase/firestore'
-import { getFirestore, collection, getDoc, getDocs, where, query, setDoc, doc, updateDoc, arrayUnion, get, onSnapshot } from 'firebase/firestore'
+import { getFirestore, collection, getDocs, where, query, setDoc, doc, updateDoc, arrayUnion, onSnapshot } from 'firebase/firestore'
 import uniqid from 'uniqid'
 import { app } from './firebaseConfig'
+
 const genUniqid = uniqid
 const db = getFirestore(app)
 
@@ -78,22 +76,7 @@ export async function checkIfChatBetweenUsersExists(uid1, uid2) {
     if (!chatSnapshot2.empty) {
         return chatSnapshot2.docs[0].data()
     }
-
     return null
-
-    
-}
-
-
-export async function getConversation(chatID) {
-    const chatRef = doc(db, "Chats", chatID)
-    const chatSnapshot = await getDoc(chatRef)
-
-    if (chatSnapshot.exists()) {
-        return chatSnapshot.data()
-    } else {
-        return `ERROR 404`
-    }
 }
 
 
@@ -133,7 +116,9 @@ export async function pushUserMessage(chatID, message, uid) {
 export async function searchByUsername(username) {
     const usersRef = collection(db, "Users")
 
-    if (!username) { return null }
+    if (!username) { 
+        return null 
+    }
     const usernameQuery = query(usersRef, where('username', '>=', username), where('username', '<=', username + '\uf8ff'))
     const usernameSnapshot = await getDocs(usernameQuery)
     if (usernameSnapshot.docs.length > 0) {
@@ -148,7 +133,6 @@ export async function searchByUsername(username) {
 }  
 
 export async function createNewChat(currentUserUID, targetUID) {
-    
     const uniqueid = genUniqid()
     await setDoc(doc(db, 'Chats', uniqueid), {
         head:{

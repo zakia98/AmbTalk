@@ -1,11 +1,10 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NavBar from './components/NavBar/NavBar';
 import ChatHistory from './components/ChatHistory/ChatHistory';
-import { SignInScreen, startFirebase, app, currentUser } from './firebaseConfig';
-import {getFirestore} from 'firebase/firestore'
+import { SignInScreen, app } from './firebaseConfig';
 import App from './App';
-import { readUserDatabase, addUserDataToDatabase, grabUserMessages, pushUserMessage, addUsersChosenUsernameToDatabase } from './firebasehelpers';
+import { readUserDatabase, addUserDataToDatabase, addUsersChosenUsernameToDatabase } from './firebasehelpers';
 import { useEffect, useState } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import CreateUserName from './components/CreateUsername';

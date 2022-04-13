@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef } from "react"
 import { useParams } from "react-router-dom"
-import { getConversation, listenForMessageUpdates, pushUserMessage } from "../../firebasehelpers"
+import { listenForMessageUpdates, pushUserMessage } from "../../firebasehelpers"
 import Message from "./Message"
 import './Conversation.css'
 import MessageBar from "./MessageBar"
 
 export default function Conversation(props) {
 
+    //obtains the conversation id from the URL
     const { convoID } = useParams() 
     const [conversation, setConversation] = useState(null) 
 

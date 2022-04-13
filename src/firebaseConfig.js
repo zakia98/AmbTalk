@@ -1,5 +1,5 @@
 // Import the functions you need from the SDKs you need
-import { onAuthStateChanged, getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -16,7 +16,6 @@ const firebaseConfig = {
 
 const app = firebase.initializeApp(firebaseConfig)
 // Initialize Firebase
-
 const auth = getAuth()
 let currentUser = getAuth().currentUser
 
@@ -38,8 +37,8 @@ const uiConfig = {
     }
   };
   
+
 function SignInScreen() {
-    
     return (
       <div>
         <h1>Welcome to MangoTalk!</h1>

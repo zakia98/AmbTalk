@@ -16,4 +16,12 @@
     align-items: center;
     justify-content: center;
     min-height:80vh;
+    padding:20px;
+}
+
+.username-field {
+    margin-top: 20px;
+    font-size: 22px;
+    border: solid 2px orange;
+    margin-bottom: 10px;
 }

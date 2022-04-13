@@ -9,8 +9,8 @@ import { app } from '../../firebaseConfig'
 import { useNavigate } from 'react-router-dom'
 
 
-export default function Chat(props) {
-    
+export default function ChatHead(props) {
+    //CREATES A CHAT HEAD.
     const navigate = useNavigate()
 
     useEffect(() => {
