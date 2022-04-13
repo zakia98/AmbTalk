@@ -11,3 +11,20 @@
     padding:2px 0px;
     border: 1px solid black;
 }
+
+.chat-info {
+    margin-left: 10px;
+}
+
+.user-name {
+    text-align: left;
+}
+
+.profile-pic {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.chat-history {
+    text-align: left;
+}

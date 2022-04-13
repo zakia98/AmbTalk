@@ -5,8 +5,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('./icons/background1.jpg');
+  background-image: url('./icons/mango-background.png');
   background-position: center center;
+  background-size: cover;
 }
 
 code {
