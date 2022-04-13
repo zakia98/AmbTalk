@@ -10,6 +10,7 @@ const genUniqid = uniqid
 const db = getFirestore(app)
 
 export async function readUserDatabase(app, uid) {
+    //reads user data from the User Database
     const usersRef = collection(db, "Users");
 
     if (uid) {
@@ -31,7 +32,8 @@ export async function addUserDataToDatabase(app, currentUser) {
     await setDoc(doc(usersRef, currentUser.uid), {
         uid:currentUser.uid,
         name:currentUser.displayName,
-        chats:[]
+        chats:[],
+        profilePicURL:currentUser.photoURL
     })
 }
 
@@ -58,6 +60,8 @@ export async function grabUserMessages(app, uid) {
 }
 
 export async function checkIfChatBetweenUsersExists(uid1, uid2) {
+    //Structured in the following fashion as firebase doesn't support 
+    //where multiple array-contains queries. 
     const chatRef = collection(db, 'Chats');
     const chatQuery1 = query(chatRef, where('head.users.user1', '==', uid1),
         where('head.users.user2', '==', uid2))
@@ -100,6 +104,18 @@ export async function listenForMessageUpdates(chatID, updateMessages) {
 
 }
 
+export async function listenForChatUpdates(UID, updateChats) {
+    const chatRef = collection(db, 'Chats');
+    const chatQuery = query(chatRef, where('head.users.allusers', 'array-contains', UID))
+    onSnapshot(chatQuery, (querySnapshot) => {
+        const chats = []
+        querySnapshot.forEach((doc) => {
+            chats.push(doc.data())
+        })
+        updateChats(chats)
+    })
+}
+
 export async function pushUserMessage(chatID, message, uid) {
     const chatRef = doc(db, 'Chats', chatID);
     await updateDoc(chatRef, {
@@ -107,7 +123,8 @@ export async function pushUserMessage(chatID, message, uid) {
             {
                 chatMessage:message,
                 uid:uid, 
-                time: new Date()
+                time: new Date(),
+                readBy:[]
             }
         )
     })

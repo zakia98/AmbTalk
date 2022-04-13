@@ -18,9 +18,13 @@ export default function App() {
 
     return(
         <div className='options'>
-            <Link to="/chat-history">Chats</Link>
-            <Link to='/settings'>Settings</Link>
-            <a onClick={logOut}>Sign Out</a>
+            <div className='options-button' onClick={() => navigate('/chat-history')}>
+                Chat History
+            </div> 
+            <div className='options-button' onClick={logOut}>
+                Sign Out        
+            </div> 
+            
         </div>
     )
 }

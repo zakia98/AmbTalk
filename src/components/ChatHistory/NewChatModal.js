@@ -15,6 +15,7 @@ export default function NewChatModal(props) {
 
     useEffect(() => {
         searchByUsername(input).then(result => updateSearchResults(result))
+            .catch(error => console.log(error))
     }, [input])
     
     

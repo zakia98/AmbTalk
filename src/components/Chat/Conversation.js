@@ -37,9 +37,11 @@ export default function Conversation(props) {
 
     }, [])
 
+    
+
     const messages = conversation ? conversation.messages.map((message, index) => {
         
-        return <Message message={message.chatMessage} key={index}/>
+        return <Message message={message} currentUser={props.currentUser}key={index}/>
     }) : null
 
     window.scrollTo(0, document.body.scrollHeight)

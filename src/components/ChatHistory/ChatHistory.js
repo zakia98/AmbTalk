@@ -1,4 +1,4 @@
-import { grabUserMessages, readUserDatabase, searchByUsername } from "../../firebasehelpers";
+import { grabUserMessages, listenForChatUpdates, readUserDatabase, searchByUsername } from "../../firebasehelpers";
 import Chat from "./Chat";
 import { app, currentUser } from "../../firebaseConfig";
 import { useEffect, useState } from "react";
@@ -14,9 +14,11 @@ export default function ChatHistory(props) {
 
     useEffect(() => {
         if (props.currentUser) {
-            grabUserMessages(app, props.currentUser.uid).then(result => {
-                setChats(result)
-            })
+            listenForChatUpdates(props.currentUser.uid, setChats)
+
+            //grabUserMessages(app, props.currentUser.uid)(result => {
+            //    setChats(result)
+            //})
         }
     }, [props.currentUser])
 
@@ -28,15 +30,16 @@ export default function ChatHistory(props) {
         toggleNewChat(true)
     }
 
-    const getChats = recentChats.length > 1 ? loadChats() : null
+    const getChats = recentChats.length > 0 ? loadChats() : null
 
     function loadChats() {
         const chats = recentChats.map((chat, index) => {
             const otherUserUID = chat.head.users.allusers.find(element => element != props.currentUser.uid)
             const lastMessage = chat.messages.length > 0 ? 
                 chat.messages[chat.messages.length - 1].chatMessage : 'No messages yet'
+            
             const trimmedLastMessage = lastMessage.split("").slice(0,19).join("") + '...'
-            return <Chat otherUserUID={otherUserUID} lastMessage={trimmedLastMessage} chatID={chat.head.chatID} key={index}></Chat>
+            return <Chat otherUserUID={otherUserUID} lastMessage={lastMessage.length > 10 ? trimmedLastMessage : lastMessage} chatID={chat.head.chatID} key={index} toggleInChat={props.toggleInChat}></Chat>
         }) 
         return chats             
     }

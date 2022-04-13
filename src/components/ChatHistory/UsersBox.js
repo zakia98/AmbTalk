@@ -11,16 +11,17 @@ export default function UsersBox(props) {
         searchByUsername(props.username).then(result => {
             const otheruser = result[0]
             checkIfChatBetweenUsersExists(otheruser.uid, props.currentUser.uid).then(chatData => {
-                console.log(`Do messages exist?: ${result}`)
-                if (!result) {
+                if (!chatData) {
                     createNewChat(otheruser.uid, props.currentUser.uid).then(newChatID => {
                         navigate(`/chat/${newChatID}`)
-                    })
+                    }).catch(
+                        error => console.log(error)
+                    )
                 } else {
                     navigate(`/chat/${chatData.head.chatID}`)
                 }
-            })
-        })
+            }).catch(error => console.log(error))
+        }).catch(error => console.log(error))
     }
 
     return(

@@ -9,9 +9,9 @@ export default function MessageBar(props) {
     
     
     return(
-        <div className='message-bar'>
+        <form onSubmit={onSend} className='message-bar'>
             <input type='text' className='message-input' onChange={props.handleChange}></input>
             <button className='send button' onClick={onSend}>Send</button>
-        </div>
+        </form>
     )
 }
